@@ -28,7 +28,7 @@ export function classifyTransaction(
   const base: ClassifiedTransaction = {
     signature: tx.signature,
     type: "unknown",
-    timestamp: new Date(tx.timestamp * 1000),
+    timestamp: new Date((tx.timestamp || 0) * 1000),
     description: tx.description || "",
     amount: null,
     tokenMint: null,
@@ -40,6 +40,8 @@ export function classifyTransaction(
 
   const desc = (tx.description || "").toLowerCase();
   const source = (tx.source || "").toLowerCase();
+  const nativeTransfers = tx.nativeTransfers || [];
+  const tokenTransfers = tx.tokenTransfers || [];
 
   // deploys (pump.fun create)
   if (
@@ -47,18 +49,18 @@ export function classifyTransaction(
     (source.includes("pump") || desc.includes(PUMP_FUN_PROGRAM_ID.toLowerCase()))
   ) {
     base.type = "deploy";
-    if (tx.tokenTransfers?.[0]) {
-      base.tokenMint = tx.tokenTransfers[0].mint;
-      base.amount = tx.tokenTransfers[0].tokenAmount;
+    if (tokenTransfers[0]) {
+      base.tokenMint = tokenTransfers[0].mint;
+      base.amount = tokenTransfers[0].tokenAmount;
     }
     return base;
   }
 
-  // swaps - sol going out, tokens coming in
-  const walletSolOut = tx.nativeTransfers?.find(
+  // swaps — sol going out, tokens coming in
+  const walletSolOut = nativeTransfers.find(
     (t) => t.fromUserAccount === WALLET_ADDRESS && t.amount > 0
   );
-  const walletTokenIn = tx.tokenTransfers?.find(
+  const walletTokenIn = tokenTransfers.find(
     (t) => t.toUserAccount === WALLET_ADDRESS && t.tokenAmount > 0
   );
 
@@ -70,7 +72,10 @@ export function classifyTransaction(
       source.includes("jupiter"))
   ) {
     // only classify as buyback if buying The Hive token specifically
-    const isBuyback = MAIN_TOKEN_CA && walletTokenIn.mint === MAIN_TOKEN_CA;
+    const isBuyback =
+      MAIN_TOKEN_CA !== null &&
+      MAIN_TOKEN_CA !== "" &&
+      walletTokenIn.mint === MAIN_TOKEN_CA;
     base.type = isBuyback ? "buyback" : "buy_sell";
     base.amount = walletSolOut.amount / 1e9;
     base.tokenMint = walletTokenIn.mint;
@@ -80,12 +85,12 @@ export function classifyTransaction(
     return base;
   }
 
-  // fee claims - sol in, no tokens involved
-  const walletSolIn = tx.nativeTransfers?.find(
+  // fee claims — sol in, NO tokens involved, from pump.fun specifically
+  const walletSolIn = nativeTransfers.find(
     (t) => t.toUserAccount === WALLET_ADDRESS && t.amount > 0
   );
-  if (walletSolIn && (!tx.tokenTransfers || tx.tokenTransfers.length === 0)) {
-    if (source.includes("pump") || desc.includes("claim") || desc.includes("withdraw")) {
+  if (walletSolIn && tokenTransfers.length === 0) {
+    if (source.includes("pump") || (desc.includes("claim") && desc.includes("fee"))) {
       base.type = "fee_claim";
       base.amount = walletSolIn.amount / 1e9;
       base.fromAddress = walletSolIn.fromUserAccount;
@@ -93,16 +98,15 @@ export function classifyTransaction(
     }
   }
 
-  // swaps
+  // other swaps (token in or out without matching buyback pattern)
   if (
-    tx.tokenTransfers &&
-    tx.tokenTransfers.length > 0 &&
+    tokenTransfers.length > 0 &&
     (source.includes("pump") ||
       source.includes("raydium") ||
       source.includes("jupiter"))
   ) {
     base.type = "buy_sell";
-    const transfer = tx.tokenTransfers[0];
+    const transfer = tokenTransfers[0];
     base.tokenMint = transfer.mint;
     base.amount = transfer.tokenAmount;
     base.fromAddress = transfer.fromUserAccount;
@@ -110,16 +114,13 @@ export function classifyTransaction(
     return base;
   }
 
-  // just a transfer
-  if (
-    (tx.nativeTransfers && tx.nativeTransfers.length > 0) ||
-    (tx.tokenTransfers && tx.tokenTransfers.length > 0)
-  ) {
+  // plain transfer
+  if (nativeTransfers.length > 0 || tokenTransfers.length > 0) {
     base.type = "transfer";
-    if (tx.nativeTransfers?.[0]) {
-      base.amount = tx.nativeTransfers[0].amount / 1e9;
-      base.fromAddress = tx.nativeTransfers[0].fromUserAccount;
-      base.toAddress = tx.nativeTransfers[0].toUserAccount;
+    if (nativeTransfers[0]) {
+      base.amount = nativeTransfers[0].amount / 1e9;
+      base.fromAddress = nativeTransfers[0].fromUserAccount;
+      base.toAddress = nativeTransfers[0].toUserAccount;
     }
     return base;
   }

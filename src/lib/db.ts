@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
   dbReady: boolean | undefined;
+  dbInitPromise: Promise<void> | undefined;
 };
 
 export const prisma = globalForPrisma.prisma ?? new PrismaClient();
@@ -66,11 +67,9 @@ CREATE TABLE IF NOT EXISTS "EcosystemStats" (
 );
 `;
 
-export async function ensureDb() {
-  if (globalForPrisma.dbReady) return;
+async function initDb() {
   try {
     await prisma.$queryRaw`SELECT 1 FROM "Transaction" LIMIT 1`;
-    globalForPrisma.dbReady = true;
   } catch {
     console.log("Tables missing, creating via raw SQL...");
     const statements = CREATE_TABLES_SQL
@@ -81,6 +80,14 @@ export async function ensureDb() {
       await prisma.$executeRawUnsafe(stmt);
     }
     console.log("Tables created successfully");
-    globalForPrisma.dbReady = true;
   }
+  globalForPrisma.dbReady = true;
+}
+
+export async function ensureDb() {
+  if (globalForPrisma.dbReady) return;
+  if (!globalForPrisma.dbInitPromise) {
+    globalForPrisma.dbInitPromise = initDb();
+  }
+  return globalForPrisma.dbInitPromise;
 }
