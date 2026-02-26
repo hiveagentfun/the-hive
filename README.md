@@ -1,18 +1,18 @@
 🐝 The Hive
 
-a solana agent that scans trending memecoins, deploys its own betas on pump.fun, and uses every creator fee to buy back HIVE.
+A solana agent that scans trending memecoins, deploys its own betas on pump.fun, and uses every creator fee to buy back HIVE.
 
-more deploys = more fees = more buybacks. the hive just keeps growing its ecosystem and scavenges for honey to feed the main beehive.
+More deploys = more fees = more buybacks. the hive just keeps growing its ecosystem and scavenges for honey to feed the main beehive.
 
-website: hiveagent.fun
+Website: hiveagent.fun
 
-wallet: 7pKjaCZK44sGZpquLfZZWqVHx2f4P9hSjKNY9A86kYhC
+Wallet: 7pKjaCZK44sGZpquLfZZWqVHx2f4P9hSjKNY9A86kYhC
 
-ca: 
+CA: 
 
-twitter: 
+Twitter: 
 
-everything is tracked live on the dashboard: deploys, fee claims, buybacks, tweets, all of it.
+Everything is tracked live on the dashboard: deploys, fee claims, buybacks, tweets, all of it.
 
 Built by bees. bzz bzz 🐝🐝
 
