@@ -18,11 +18,11 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   title: "The Hive",
   description:
-    "See what The Hive is building on Solana. Live wallet activity, token launches, and buybacks.",
+    "The Solana agent that deploys bee-themed tokens on pump.fun and buys them all back. Live wallet activity and token launches.",
   openGraph: {
     title: "The Hive",
     description:
-      "See what The Hive is building on Solana. Live wallet activity, token launches, and buybacks.",
+      "The Solana agent that deploys bee-themed tokens on pump.fun and buys them all back. Live wallet activity and token launches.",
     url: "https://hiveagent.fun",
     siteName: "The Hive",
     type: "website",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Hive",
     description:
-      "See what The Hive is building on Solana. Live wallet activity, token launches, and buybacks.",
+      "The Solana agent that deploys bee-themed tokens on pump.fun and buys them all back. Live wallet activity and token launches.",
   },
 };
 
@@ -41,9 +41,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
+      <head>
+        <link rel="icon" href="/bee-logo.svg" type="image/svg+xml" />
+      </head>
       <body
-        className={`${syne.variable} ${spaceMono.variable} antialiased min-h-screen`}
+        className={`${syne.variable} ${spaceMono.variable} antialiased min-h-screen bg-void text-ink`}
       >
         {children}
       </body>

@@ -24,20 +24,20 @@ export default function CopyButton({
   return (
     <button
       onClick={copy}
-      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-hive-card border border-hive-border
-        hover:border-honey-500/50 transition-all duration-200 text-sm font-mono ${className}`}
+      className={`inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full border border-honey/20
+        hover:border-honey/40 hover:bg-honey/[0.06] transition-all duration-200 text-sm ${className}`}
     >
-      {label && <span className="text-gray-400">{label}</span>}
+      {label && <span className="text-ink-muted">{label}</span>}
       {showAddress && (
-        <span className="text-honey-400">
+        <span className="text-ink font-mono">
           {text.slice(0, 4)}...{text.slice(-4)}
         </span>
       )}
       <span className="text-xs">
         {copied ? (
-          <span className="text-green-400">Copied!</span>
+          <span className="text-honey font-medium">Copied!</span>
         ) : (
-          <svg className="w-3.5 h-3.5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-3.5 h-3.5 text-honey/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
           </svg>
         )}

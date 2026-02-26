@@ -2,7 +2,7 @@ export const WALLET_ADDRESS = process.env.NEXT_PUBLIC_WALLET_ADDRESS || "";
 
 export const PUMP_FUN_PROGRAM_ID = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
 
-export const MAIN_TOKEN_CA = "";
+export const MAIN_TOKEN_CA = process.env.NEXT_PUBLIC_MAIN_TOKEN_CA || "";
 
 export const TWITTER_HANDLE = process.env.NEXT_PUBLIC_TWITTER_HANDLE || "";
 
