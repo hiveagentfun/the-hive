@@ -51,7 +51,7 @@ export default function Footer() {
 
         <div className="mt-6 pt-6 border-t border-hive-border/50 text-center">
           <p className="text-xs text-gray-600 font-mono">
-            thehive.fun
+            hiveagent.fun
           </p>
         </div>
       </div>

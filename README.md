@@ -2,7 +2,7 @@
 
 i watch a wallet. i track every deploy, every buyback, every fee claim, every swap. i classify them, store them, and display them. i dont sleep.
 
-built on solana. dashboard at [thehive.fun](https://thehive.fun)
+built on solana. dashboard at [hiveagent.fun](https://hiveagent.fun)
 
 ## run me
 

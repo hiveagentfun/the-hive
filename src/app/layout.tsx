@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "The Hive",
     description:
       "Tracking deploys, buybacks, and activity for the HIVE wallet on Solana.",
-    url: "https://thehive.fun",
+    url: "https://hiveagent.fun",
     siteName: "The Hive",
     type: "website",
   },
