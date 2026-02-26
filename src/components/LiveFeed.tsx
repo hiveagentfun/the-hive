@@ -17,26 +17,45 @@ interface Transaction {
 
 const FILTERS = [
   { key: "all", label: "All" },
-  { key: "deploy", label: "Deploys" },
+  { key: "deploy", label: "Launches" },
   { key: "buyback", label: "Buybacks" },
-  { key: "fee_claim", label: "Fee Claims" },
+  { key: "fee_claim", label: "Earnings" },
 ];
 
 const TYPE_BADGES: Record<string, { color: string; label: string }> = {
-  deploy: { color: "bg-purple-500/20 text-purple-400 border-purple-500/30", label: "DEPLOY" },
+  deploy: { color: "bg-honey-500/20 text-honey-400 border-honey-500/30", label: "LAUNCH" },
   buyback: { color: "bg-green-500/20 text-green-400 border-green-500/30", label: "BUYBACK" },
-  fee_claim: { color: "bg-honey-500/20 text-honey-400 border-honey-500/30", label: "FEE CLAIM" },
-  buy_sell: { color: "bg-blue-500/20 text-blue-400 border-blue-500/30", label: "SWAP" },
-  transfer: { color: "bg-gray-500/20 text-gray-400 border-gray-500/30", label: "TRANSFER" },
-  unknown: { color: "bg-gray-500/20 text-gray-500 border-gray-500/30", label: "OTHER" },
+  fee_claim: { color: "bg-amber-500/20 text-amber-400 border-amber-500/30", label: "EARNINGS" },
+  buy_sell: { color: "bg-honey-600/20 text-honey-500 border-honey-600/30", label: "SWAP" },
+  transfer: { color: "bg-honey-800/20 text-honey-700 border-honey-800/30", label: "TRANSFER" },
+  unknown: { color: "bg-hive-border text-hive-muted border-hive-border", label: "OTHER" },
 };
+
+const HUMAN_LABELS: Record<string, string> = {
+  deploy: "Launched a new token",
+  buyback: "Bought back tokens",
+  fee_claim: "Collected earnings",
+  buy_sell: "Swapped tokens",
+  transfer: "Sent a transfer",
+};
+
+function timeAgo(dateStr: string): string {
+  const seconds = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+  if (seconds < 60) return "just now";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
 
 export default function LiveFeed() {
   const [filter, setFilter] = useState("all");
 
   const fetcher = useCallback(
     () =>
-      fetch(`/api/transactions?type=${filter}&limit=20`).then((r) => r.json()),
+      fetch(`/api/transactions?type=${filter}&limit=10`).then((r) => r.json()),
     [filter]
   );
   const { data, loading } = usePolling<{
@@ -51,10 +70,10 @@ export default function LiveFeed() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
           <h2 className="font-heading font-bold text-2xl text-white">
-            Live Activity
+            What&apos;s Buzzing
           </h2>
-          <span className="flex items-center gap-1.5 text-xs text-green-400 font-mono">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          <span className="flex items-center gap-1.5 text-xs text-honey-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-honey-400 animate-pulse" />
             LIVE
           </span>
         </div>
@@ -65,10 +84,10 @@ export default function LiveFeed() {
             <button
               key={f.key}
               onClick={() => setFilter(f.key)}
-              className={`px-3 py-1.5 rounded-md text-xs font-mono transition-all ${
+              className={`px-3 py-1.5 rounded-md text-xs transition-all ${
                 filter === f.key
                   ? "bg-honey-500/20 text-honey-400"
-                  : "text-gray-500 hover:text-gray-300"
+                  : "text-hive-muted hover:text-white"
               }`}
             >
               {f.label}
@@ -85,13 +104,14 @@ export default function LiveFeed() {
             ))}
           </div>
         ) : transactions.length === 0 ? (
-          <div className="p-12 text-center text-gray-500 font-mono text-sm">
-            No transactions found. Sync data or wait for webhook events.
+          <div className="p-12 text-center text-hive-muted text-sm">
+            No activity yet. The bees are resting.
           </div>
         ) : (
           <div className="divide-y divide-hive-border">
             {transactions.map((tx) => {
               const badge = TYPE_BADGES[tx.type] || TYPE_BADGES.unknown;
+              const label = tx.description || HUMAN_LABELS[tx.type] || "Activity";
               return (
                 <div
                   key={tx.id}
@@ -105,10 +125,10 @@ export default function LiveFeed() {
                     </span>
                     <div className="min-w-0">
                       <p className="text-sm text-gray-300 truncate">
-                        {tx.description || tx.signature.slice(0, 24) + "..."}
+                        {label}
                       </p>
-                      <p className="text-xs text-gray-600 font-mono">
-                        {new Date(tx.timestamp).toLocaleString()}
+                      <p className="text-xs text-hive-muted">
+                        {timeAgo(tx.timestamp)}
                       </p>
                     </div>
                   </div>
@@ -122,7 +142,7 @@ export default function LiveFeed() {
                       href={URLS.solscan(tx.signature)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-honey-400 transition-colors"
+                      className="text-hive-muted hover:text-honey-400 transition-colors"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />

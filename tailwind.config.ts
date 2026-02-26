@@ -24,10 +24,10 @@ const config: Config = {
           900: "#664200",
         },
         hive: {
-          dark: "#0a0a0f",
-          card: "#12121a",
-          border: "#1e1e2e",
-          muted: "#8888aa",
+          dark: "#0d0b08",
+          card: "#161210",
+          border: "#2a2218",
+          muted: "#9a8a72",
         },
       },
       fontFamily: {

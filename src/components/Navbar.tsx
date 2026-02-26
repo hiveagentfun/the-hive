@@ -4,22 +4,20 @@ import Image from "next/image";
 import { useState } from "react";
 
 const NAV_LINKS = [
-  { label: "Activity", href: "#activity" },
   { label: "Tokens", href: "#tokens" },
-  { label: "Buybacks", href: "#buybacks" },
-  { label: "Wallet", href: "#wallet" },
+  { label: "Activity", href: "#activity" },
 ];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-hive-dark/80 border-b border-hive-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-hive-dark/80 border-b border-hive-border shadow-[0_1px_12px_rgba(245,166,35,0.06)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2 group">
-            <Image src="/bee-logo.svg" alt="The Hive" width={36} height={36} />
+            <Image src="/bee-logo.svg" alt="The Hive" width={40} height={40} />
             <span className="font-heading font-bold text-xl text-white group-hover:text-honey-400 transition-colors">
               THE HIVE
             </span>
@@ -31,7 +29,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm text-gray-400 hover:text-honey-400 transition-colors font-mono"
+                className="text-sm text-hive-muted hover:text-honey-400 transition-colors"
               >
                 {link.label}
               </a>
@@ -40,13 +38,13 @@ export default function Navbar() {
 
           {/* Right: status dot */}
           <div className="hidden md:flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-xs text-gray-500 font-mono">LIVE</span>
+            <span className="w-2 h-2 rounded-full bg-honey-400 animate-pulse" />
+            <span className="text-xs text-hive-muted">LIVE</span>
           </div>
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden text-gray-400 hover:text-white"
+            className="md:hidden text-hive-muted hover:text-white"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -69,7 +67,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="block py-2 text-sm text-gray-400 hover:text-honey-400 font-mono"
+                className="block py-2 text-sm text-hive-muted hover:text-honey-400"
               >
                 {link.label}
               </a>

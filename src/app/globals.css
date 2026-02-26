@@ -3,23 +3,23 @@
 @tailwind utilities;
 
 :root {
-  --background: #0a0a0f;
-  --foreground: #e5e5e5;
+  --background: #0d0b08;
+  --foreground: #e5e0d8;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: "Space Mono", monospace;
+  font-family: "Syne", sans-serif;
 }
 
-/* honeycomb bg */
+/* honeycomb bg — amber strokes, visible */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='%23ffffff' stroke-width='0.3' opacity='0.04'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='%23f5a623' stroke-width='0.5' opacity='0.08'/%3E%3C/svg%3E");
   background-size: 56px 100px;
 }
 
@@ -30,7 +30,7 @@ body::after {
   z-index: -1;
   background: radial-gradient(
     ellipse 80% 50% at 50% 0%,
-    rgba(245, 166, 35, 0.04) 0%,
+    rgba(245, 166, 35, 0.08) 0%,
     transparent 60%
   );
 }
@@ -39,21 +39,33 @@ html {
   scroll-behavior: smooth;
 }
 
+/* hex-card clip-path */
+.hex-card {
+  clip-path: polygon(
+    4% 0%, 96% 0%, 100% 50%, 96% 100%, 4% 100%, 0% 50%
+  );
+}
+
+/* amber glow */
+.glow-amber {
+  box-shadow: 0 0 20px rgba(245, 166, 35, 0.15), 0 0 40px rgba(245, 166, 35, 0.05);
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0f;
+  background: #0d0b08;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e1e2e;
+  background: #2a2218;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2e2e3e;
+  background: #3d3222;
 }
 
 ::selection {

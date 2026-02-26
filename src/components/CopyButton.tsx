@@ -5,10 +5,12 @@ import { useState } from "react";
 export default function CopyButton({
   text,
   label,
+  showAddress = true,
   className = "",
 }: {
   text: string;
   label?: string;
+  showAddress?: boolean;
   className?: string;
 }) {
   const [copied, setCopied] = useState(false);
@@ -26,9 +28,11 @@ export default function CopyButton({
         hover:border-honey-500/50 transition-all duration-200 text-sm font-mono ${className}`}
     >
       {label && <span className="text-gray-400">{label}</span>}
-      <span className="text-honey-400">
-        {text.slice(0, 4)}...{text.slice(-4)}
-      </span>
+      {showAddress && (
+        <span className="text-honey-400">
+          {text.slice(0, 4)}...{text.slice(-4)}
+        </span>
+      )}
       <span className="text-xs">
         {copied ? (
           <span className="text-green-400">Copied!</span>

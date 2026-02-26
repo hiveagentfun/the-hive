@@ -18,11 +18,11 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   title: "The Hive",
   description:
-    "Tracking deploys, buybacks, and activity for the HIVE wallet on Solana.",
+    "See what The Hive is building on Solana. Live wallet activity, token launches, and buybacks.",
   openGraph: {
     title: "The Hive",
     description:
-      "Tracking deploys, buybacks, and activity for the HIVE wallet on Solana.",
+      "See what The Hive is building on Solana. Live wallet activity, token launches, and buybacks.",
     url: "https://hiveagent.fun",
     siteName: "The Hive",
     type: "website",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Hive",
     description:
-      "Tracking deploys, buybacks, and activity for the HIVE wallet on Solana.",
+      "See what The Hive is building on Solana. Live wallet activity, token launches, and buybacks.",
   },
 };
 
