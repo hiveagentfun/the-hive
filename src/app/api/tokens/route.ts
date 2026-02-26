@@ -2,18 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma, ensureDb } from "@/lib/db";
 
 export async function GET(req: NextRequest) {
-  await ensureDb();
-  const { searchParams } = new URL(req.url);
-  const status = searchParams.get("status");
-  const limit = Math.min(parseInt(searchParams.get("limit") || "50"), 100);
+  try {
+    await ensureDb();
+    const { searchParams } = new URL(req.url);
+    const status = searchParams.get("status");
+    const limit = Math.min(parseInt(searchParams.get("limit") || "50"), 100);
 
-  const where = status ? { status } : {};
+    const where = status ? { status } : {};
 
-  const tokens = await prisma.deployedToken.findMany({
-    where,
-    orderBy: { deployedAt: "desc" },
-    take: limit,
-  });
+    const tokens = await prisma.deployedToken.findMany({
+      where,
+      orderBy: { deployedAt: "desc" },
+      take: limit,
+    });
 
-  return NextResponse.json({ tokens });
+    return NextResponse.json({ tokens });
+  } catch {
+    return NextResponse.json({ tokens: [] });
+  }
 }
