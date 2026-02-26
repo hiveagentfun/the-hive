@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Transaction {
+  id              String   @id @default(cuid())
+  signature       String   @unique
+  type            String   // deploy, buyback, buy_sell, fee_claim, transfer, unknown
+  timestamp       DateTime
+  description     String?
+  amount          Float?
+  tokenMint       String?
+  tokenSymbol     String?
+  tokenName       String?
+  fromAddress     String?
+  toAddress       String?
+  rawData         String?  // JSON string of full tx data
+  createdAt       DateTime @default(now())
+
+  @@index([type])
+  @@index([timestamp])
+}
+
+model DeployedToken {
+  id              String   @id @default(cuid())
+  mintAddress     String   @unique
+  name            String
+  symbol          String
+  imageUrl        String?
+  deploySignature String
+  deployedAt      DateTime
+  status          String   @default("active") // active, rugged, graduated
+  createdAt       DateTime @default(now())
+
+  @@index([status])
+  @@index([deployedAt])
+}
+
+model Buyback {
+  id              String   @id @default(cuid())
+  signature       String   @unique
+  solAmount       Float
+  tokenAmount     Float
+  tokenMint       String
+  timestamp       DateTime
+  createdAt       DateTime @default(now())
+
+  @@index([timestamp])
+}
+
+model EcosystemStats {
+  id              String   @id @default("singleton")
+  totalDeploys    Int      @default(0)
+  totalBuybacks   Int      @default(0)
+  totalBuybackSol Float    @default(0)
+  totalFeeClaims  Int      @default(0)
+  lastUpdated     DateTime @default(now())
+}
