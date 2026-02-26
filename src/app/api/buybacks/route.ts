@@ -19,7 +19,8 @@ export async function GET(req: NextRequest) {
       buybacks,
       totalSolSpent: totalSol._sum.solAmount || 0,
     });
-  } catch {
+  } catch (err) {
+    console.error("Buybacks API error:", err);
     return NextResponse.json({ buybacks: [], totalSolSpent: 0 });
   }
 }

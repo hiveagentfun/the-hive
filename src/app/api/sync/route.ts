@@ -3,6 +3,7 @@ import { prisma, ensureDb } from "@/lib/db";
 import { fetchEnhancedTransactions } from "@/lib/helius";
 import { classifyTransaction } from "@/lib/transaction-parser";
 import { getTokenMetadata } from "@/lib/helius";
+import { Prisma } from "@prisma/client";
 
 export async function POST(req: NextRequest) {
   await ensureDb();
@@ -32,27 +33,38 @@ export async function POST(req: NextRequest) {
 
       const classified = classifyTransaction(tx);
 
-      await prisma.transaction.create({
-        data: {
-          signature: classified.signature,
-          type: classified.type,
-          timestamp: classified.timestamp,
-          description: classified.description,
-          amount: classified.amount,
-          tokenMint: classified.tokenMint,
-          tokenSymbol: classified.tokenSymbol,
-          tokenName: classified.tokenName,
-          fromAddress: classified.fromAddress,
-          toAddress: classified.toAddress,
-          rawData: JSON.stringify(tx),
-        },
-      });
+      try {
+        await prisma.transaction.create({
+          data: {
+            signature: classified.signature,
+            type: classified.type,
+            timestamp: classified.timestamp,
+            description: classified.description,
+            amount: classified.amount,
+            tokenMint: classified.tokenMint,
+            tokenSymbol: classified.tokenSymbol,
+            tokenName: classified.tokenName,
+            fromAddress: classified.fromAddress,
+            toAddress: classified.toAddress,
+            rawData: JSON.stringify(tx),
+          },
+        });
+      } catch (err) {
+        if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
+          continue;
+        }
+        throw err;
+      }
 
       if (classified.type === "deploy" && classified.tokenMint) {
-        const meta = await getTokenMetadata(classified.tokenMint);
+        const meta = await getTokenMetadata(classified.tokenMint).catch(() => null);
         await prisma.deployedToken.upsert({
           where: { mintAddress: classified.tokenMint },
-          update: {},
+          update: {
+            name: meta?.name || undefined,
+            symbol: meta?.symbol || undefined,
+            imageUrl: meta?.image || undefined,
+          },
           create: {
             mintAddress: classified.tokenMint,
             name: meta?.name || "Unknown",
@@ -69,15 +81,22 @@ export async function POST(req: NextRequest) {
         classified.tokenMint &&
         classified.amount
       ) {
-        await prisma.buyback.create({
-          data: {
-            signature: classified.signature,
-            solAmount: classified.amount,
-            tokenAmount: 0,
-            tokenMint: classified.tokenMint,
-            timestamp: classified.timestamp,
-          },
-        });
+        try {
+          await prisma.buyback.create({
+            data: {
+              signature: classified.signature,
+              solAmount: classified.amount,
+              tokenAmount: 0,
+              tokenMint: classified.tokenMint,
+              timestamp: classified.timestamp,
+            },
+          });
+        } catch (err) {
+          if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
+            continue;
+          }
+          throw err;
+        }
       }
 
       totalProcessed++;

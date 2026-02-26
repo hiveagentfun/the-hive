@@ -80,8 +80,9 @@ export function classifyTransaction(
     base.amount = walletSolOut.amount / 1e9;
     base.tokenMint = walletTokenIn.mint;
     base.tokenSymbol = null;
-    base.fromAddress = WALLET_ADDRESS;
-    base.toAddress = walletTokenIn.mint;
+    // token flow: token comes FROM the pool/seller TO the wallet (this is a BUY)
+    base.fromAddress = walletTokenIn.fromUserAccount || walletTokenIn.mint;
+    base.toAddress = WALLET_ADDRESS;
     return base;
   }
 

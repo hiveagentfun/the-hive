@@ -17,7 +17,8 @@ export async function GET(req: NextRequest) {
     });
 
     return NextResponse.json({ tokens });
-  } catch {
+  } catch (err) {
+    console.error("Tokens API error:", err);
     return NextResponse.json({ tokens: [] });
   }
 }

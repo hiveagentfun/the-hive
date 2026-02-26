@@ -22,7 +22,8 @@ export async function GET(req: NextRequest) {
     ]);
 
     return NextResponse.json({ transactions, total, limit, offset });
-  } catch {
+  } catch (err) {
+    console.error("Transactions API error:", err);
     return NextResponse.json({ transactions: [], total: 0, limit: 50, offset: 0 });
   }
 }

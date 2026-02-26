@@ -18,7 +18,8 @@ export async function GET() {
       walletBalance: balance,
       lastUpdated: stats?.lastUpdated || null,
     });
-  } catch {
+  } catch (err) {
+    console.error("Stats API error:", err);
     const balance = await getBalance().catch(() => null);
     return NextResponse.json({
       totalDeploys: 0,
