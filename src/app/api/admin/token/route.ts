@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { prisma, ensureDb } from "@/lib/db";
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
 
@@ -11,6 +11,7 @@ function checkAuth(req: NextRequest) {
 
 // POST /api/admin/token — manually add a deployed token
 export async function POST(req: NextRequest) {
+  await ensureDb();
   if (!checkAuth(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -65,6 +66,7 @@ export async function POST(req: NextRequest) {
 
 // DELETE /api/admin/token — remove a token by mintAddress
 export async function DELETE(req: NextRequest) {
+  await ensureDb();
   if (!checkAuth(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

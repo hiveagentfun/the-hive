@@ -3,18 +3,28 @@ import { execSync } from "child_process";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
-  dbInitialized: boolean | undefined;
+  dbReady: boolean | undefined;
 };
 
-if (!globalForPrisma.dbInitialized) {
+export async function ensureDb() {
+  if (globalForPrisma.dbReady) return;
   try {
-    execSync("npx prisma db push --accept-data-loss --skip-generate", {
-      stdio: "inherit",
-    });
+    const p = globalForPrisma.prisma ?? new PrismaClient();
+    await p.$queryRaw`SELECT 1 FROM Transaction LIMIT 1`;
+    globalForPrisma.dbReady = true;
   } catch {
-    console.error("prisma db push failed — tables may be missing");
+    console.log("Tables missing, running prisma db push...");
+    try {
+      execSync("npx prisma db push --accept-data-loss --skip-generate", {
+        stdio: "inherit",
+        timeout: 30000,
+      });
+      console.log("prisma db push complete");
+    } catch (e) {
+      console.error("prisma db push failed:", e);
+    }
+    globalForPrisma.dbReady = true;
   }
-  globalForPrisma.dbInitialized = true;
 }
 
 export const prisma = globalForPrisma.prisma ?? new PrismaClient();

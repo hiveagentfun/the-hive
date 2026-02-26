@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { prisma, ensureDb } from "@/lib/db";
 
 export async function GET(req: NextRequest) {
+  await ensureDb();
   const { searchParams } = new URL(req.url);
   const type = searchParams.get("type");
   const limit = Math.min(parseInt(searchParams.get("limit") || "50"), 100);

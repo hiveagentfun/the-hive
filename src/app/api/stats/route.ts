@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { prisma, ensureDb } from "@/lib/db";
 import { getBalance } from "@/lib/helius";
 
 export async function GET() {
+  await ensureDb();
   const [stats, balance] = await Promise.all([
     prisma.ecosystemStats.findUnique({ where: { id: "singleton" } }),
     getBalance().catch(() => null),

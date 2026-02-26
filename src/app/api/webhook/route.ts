@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { prisma, ensureDb } from "@/lib/db";
 import { classifyTransaction } from "@/lib/transaction-parser";
 import { getTokenMetadata, type EnhancedTransaction } from "@/lib/helius";
 
 export async function POST(req: NextRequest) {
+  await ensureDb();
   const webhookSecret = process.env.HELIUS_WEBHOOK_SECRET;
   if (!webhookSecret) {
     return NextResponse.json({ error: "Server misconfigured" }, { status: 500 });
