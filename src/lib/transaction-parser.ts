@@ -1,4 +1,4 @@
-import { WALLET_ADDRESS, PUMP_FUN_PROGRAM_ID } from "./constants";
+import { WALLET_ADDRESS, PUMP_FUN_PROGRAM_ID, MAIN_TOKEN_CA } from "./constants";
 import type { EnhancedTransaction } from "./helius";
 
 export type TransactionType =
@@ -54,7 +54,7 @@ export function classifyTransaction(
     return base;
   }
 
-  // buybacks - sol going out, tokens coming in
+  // swaps - sol going out, tokens coming in
   const walletSolOut = tx.nativeTransfers?.find(
     (t) => t.fromUserAccount === WALLET_ADDRESS && t.amount > 0
   );
@@ -69,10 +69,14 @@ export function classifyTransaction(
       source.includes("raydium") ||
       source.includes("jupiter"))
   ) {
-    base.type = "buyback";
+    // only classify as buyback if buying The Hive token specifically
+    const isBuyback = MAIN_TOKEN_CA && walletTokenIn.mint === MAIN_TOKEN_CA;
+    base.type = isBuyback ? "buyback" : "buy_sell";
     base.amount = walletSolOut.amount / 1e9;
     base.tokenMint = walletTokenIn.mint;
     base.tokenSymbol = null;
+    base.fromAddress = WALLET_ADDRESS;
+    base.toAddress = walletTokenIn.mint;
     return base;
   }
 
