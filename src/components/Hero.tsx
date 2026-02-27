@@ -113,7 +113,7 @@ export default function Hero() {
 
         {/* CTAs */}
         <div className="opacity-0 animate-fade-in-up-delay-4 flex flex-wrap items-center justify-center gap-2.5">
-          {MAIN_TOKEN_CA && (
+          {MAIN_TOKEN_CA ? (
             <a
               href={URLS.pumpFun(MAIN_TOKEN_CA)}
               target="_blank"
@@ -127,6 +127,12 @@ export default function Hero() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
             </a>
+          ) : (
+            <span className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full
+              border border-honey/20 text-ink-faint text-sm font-bold cursor-default">
+              <span className="w-1.5 h-1.5 rounded-full bg-honey animate-live-pulse" />
+              Buy The Hive
+            </span>
           )}
           <CopyButton text={WALLET_ADDRESS} label="Wallet" showAddress />
         </div>

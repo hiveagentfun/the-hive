@@ -6,7 +6,15 @@ import { MAIN_TOKEN_CA, URLS } from "@/lib/constants";
 
 function CaButton() {
   const [copied, setCopied] = useState(false);
-  if (!MAIN_TOKEN_CA) return null;
+
+  if (!MAIN_TOKEN_CA) {
+    return (
+      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-honey/10">
+        <span className="w-1 h-1 rounded-full bg-honey animate-live-pulse" />
+        <span className="text-[10px] text-ink-faint font-medium">CA Soon</span>
+      </div>
+    );
+  }
 
   const handleCopy = async () => {
     try {
