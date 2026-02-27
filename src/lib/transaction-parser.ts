@@ -109,7 +109,9 @@ export function classifyTransaction(
     base.type = "buy_sell";
     const transfer = tokenTransfers[0];
     base.tokenMint = transfer.mint;
-    base.amount = transfer.tokenAmount;
+    // Prefer SOL amount from native transfers for display; fallback to null
+    const solTransfer = nativeTransfers.find((t) => t.amount > 0);
+    base.amount = solTransfer ? solTransfer.amount / 1e9 : null;
     base.fromAddress = transfer.fromUserAccount;
     base.toAddress = transfer.toUserAccount;
     return base;

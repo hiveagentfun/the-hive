@@ -13,7 +13,7 @@ export async function getMarketCap(): Promise<number | null> {
     const data = await res.json();
     const pair = data.pairs?.[0];
     if (!pair) return null;
-    return pair.marketCap ?? pair.fdv ?? null;
+    return pair.marketCap || pair.fdv || null;
   } catch {
     return null;
   }
