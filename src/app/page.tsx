@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import ScrollProgress from "@/components/ScrollProgress";
 import Hero from "@/components/Hero";
 import Flywheel from "@/components/Flywheel";
+import StatsBar from "@/components/StatsBar";
 import BeehiveTracker from "@/components/BeehiveTracker";
 import DeployedTokens from "@/components/DeployedTokens";
 import LiveActivity from "@/components/LiveActivity";
@@ -15,6 +16,7 @@ export default function Home() {
       <main>
         <Hero />
         <Flywheel />
+        <StatsBar />
         <BeehiveTracker />
         <DeployedTokens />
         <LiveActivity />

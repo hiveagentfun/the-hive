@@ -113,24 +113,43 @@ function HexCell({
       />
       {filled && (
         <>
+          {token.imageUrl ? (
+            <>
+              <defs>
+                <clipPath id={`hex-clip-${index}`}>
+                  <path d={hexPath(R - 1)} />
+                </clipPath>
+              </defs>
+              <image
+                href={token.imageUrl}
+                x={-(R - 1)}
+                y={-(R - 1)}
+                width={(R - 1) * 2}
+                height={(R - 1) * 2}
+                clipPath={`url(#hex-clip-${index})`}
+                className="pointer-events-none"
+                preserveAspectRatio="xMidYMid slice"
+              />
+            </>
+          ) : (
+            <text
+              textAnchor="middle"
+              dominantBaseline="central"
+              fontSize="7"
+              fontWeight="700"
+              fontFamily="Syne, sans-serif"
+              fill={isMain ? "#f5a623" : "#e5e5e5"}
+              className="pointer-events-none select-none"
+            >
+              {displayText}
+            </text>
+          )}
           {/* Hover overlay */}
           <path
             d={hexPath(R - 1)}
             fill="transparent"
             className="hover:fill-[rgba(245,166,35,0.08)]"
           />
-          {/* Token symbol */}
-          <text
-            textAnchor="middle"
-            dominantBaseline="central"
-            fontSize="7"
-            fontWeight="700"
-            fontFamily="Syne, sans-serif"
-            fill={isMain ? "#f5a623" : "#e5e5e5"}
-            className="pointer-events-none select-none"
-          >
-            {displayText}
-          </text>
         </>
       )}
     </motion.g>
