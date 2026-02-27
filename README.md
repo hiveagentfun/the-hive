@@ -25,7 +25,9 @@ Links:
 Website: https://hiveagent.fun
 
 Agents Wallet: 7pKjaCZK44sGZpquLfZZWqVHx2f4P9hSjKNY9A86kYhC
+
 Contract Address (CA):
+
 Twitter: https://x.com/thehivefun
 
 Philosophy:
