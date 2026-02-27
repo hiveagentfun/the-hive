@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CopyButton from "./CopyButton";
 import { WALLET_ADDRESS, MAIN_TOKEN_CA, URLS } from "@/lib/constants";
 import { usePolling } from "@/hooks/usePolling";
@@ -43,28 +43,6 @@ export default function Hero() {
   const rawBalance = data?.walletBalance ?? 0;
   const animatedBalance = useCountUp(rawBalance, 1000);
 
-  // Typewriter effect
-  const fullText = "A Solana agent that watches the current meta of the Solana trenches, launches bee-themed beta tokens, and funnels all fees back into The Hive.";
-  const [typedLen, setTypedLen] = useState(0);
-  const typeStarted = useRef(false);
-
-  useEffect(() => {
-    if (typeStarted.current) return;
-    typeStarted.current = true;
-    const delay = setTimeout(() => {
-      const id = setInterval(() => {
-        setTypedLen((prev) => {
-          if (prev >= fullText.length) {
-            clearInterval(id);
-            return fullText.length;
-          }
-          return prev + 1;
-        });
-      }, 25);
-    }, 800);
-    return () => clearTimeout(delay);
-  }, [fullText.length]);
-
   return (
     <section id="home" className="relative pt-32 pb-24 px-6 text-center overflow-hidden">
       {/* Warm radial glow — slow parallax */}
@@ -78,16 +56,16 @@ export default function Hero() {
         className="absolute inset-0 pointer-events-none overflow-hidden"
         style={{ transform: `translateY(${scrollY * 0.3}px)` }}
       >
-        <div className="absolute top-[15%] left-[8%] animate-bee-float opacity-[0.14]" style={{ animationDelay: "0s" }}>
+        <div className="absolute top-[15%] left-[8%] animate-bee-float opacity-[0.25]" style={{ animationDelay: "0s" }}>
           <BeeIcon className="w-10 h-10" />
         </div>
-        <div className="absolute top-[20%] right-[12%] animate-bee-float opacity-[0.12]" style={{ animationDelay: "1s" }}>
+        <div className="absolute top-[20%] right-[12%] animate-bee-float opacity-[0.22]" style={{ animationDelay: "1s" }}>
           <BeeIcon className="w-12 h-12" />
         </div>
-        <div className="absolute bottom-[20%] left-[15%] animate-bee-float opacity-[0.10]" style={{ animationDelay: "2s" }}>
+        <div className="absolute bottom-[20%] left-[15%] animate-bee-float opacity-[0.18]" style={{ animationDelay: "2s" }}>
           <BeeIcon className="w-9 h-9" />
         </div>
-        <div className="absolute bottom-[30%] right-[10%] animate-bee-float opacity-[0.08]" style={{ animationDelay: "1.5s" }}>
+        <div className="absolute bottom-[30%] right-[10%] animate-bee-float opacity-[0.15]" style={{ animationDelay: "1.5s" }}>
           <BeeIcon className="w-8 h-8" />
         </div>
       </div>
@@ -114,10 +92,7 @@ export default function Hero() {
         </div>
 
         <p className="opacity-0 animate-fade-in-up-delay-2 text-ink-muted text-base max-w-md mx-auto mb-10 leading-relaxed">
-          {fullText.slice(0, typedLen)}
-          {typedLen < fullText.length && (
-            <span className="inline-block w-[2px] h-[1em] bg-honey/60 ml-0.5 align-middle animate-pulse" />
-          )}
+          A Solana agent that watches the current meta of the Solana trenches, launches bee-themed beta tokens, and funnels all fees back into The Hive.
         </p>
 
         {/* Live Balance */}

@@ -9,9 +9,9 @@ function CaButton() {
 
   if (!MAIN_TOKEN_CA) {
     return (
-      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-honey/10">
-        <span className="w-1 h-1 rounded-full bg-honey animate-live-pulse" />
-        <span className="text-[10px] text-ink-faint font-medium">CA Soon</span>
+      <div className="flex items-center gap-2 px-4 py-1.5 rounded-lg border border-honey/15 bg-honey/[0.04]">
+        <span className="w-1.5 h-1.5 rounded-full bg-honey animate-live-pulse" />
+        <span className="text-xs text-ink-muted font-medium">CA Soon</span>
       </div>
     );
   }
@@ -32,10 +32,10 @@ function CaButton() {
     <div className="flex items-center gap-1.5">
       <button
         onClick={handleCopy}
-        className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-honey/20 hover:border-honey/40 transition-colors"
+        className="flex items-center gap-2 px-4 py-1.5 rounded-lg border border-honey/20 hover:border-honey/40 bg-honey/[0.04] hover:bg-honey/[0.08] transition-all"
       >
-        <span className="text-[11px] font-mono text-ink-muted">{short}</span>
-        <span className="text-[10px] text-honey font-medium">
+        <span className="text-xs font-mono text-ink-muted">{short}</span>
+        <span className="text-xs text-honey font-medium">
           {copied ? "Copied!" : "CA"}
         </span>
       </button>

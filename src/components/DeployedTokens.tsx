@@ -83,20 +83,30 @@ function HexCell({
       style={{ cursor: filled ? "pointer" : "default" }}
       onClick={filled ? onClick : undefined}
     >
+      {/* Hex glow (visible on empty cells) */}
+      {!filled && (
+        <path
+          d={hexPath(R + 2)}
+          fill="none"
+          stroke="rgba(245,166,35,0.12)"
+          strokeWidth={2}
+          className="animate-hex-pulse"
+          style={{ animationDelay: `${index * 0.4}s`, filter: "blur(2px)" }}
+        />
+      )}
       {/* Hex border */}
       <path
         d={hexPath(R)}
         fill="none"
         stroke={
           isSelected
-            ? "rgba(245,166,35,0.6)"
+            ? "rgba(245,166,35,0.7)"
             : filled
-              ? "rgba(245,166,35,0.15)"
-              : "rgba(245,166,35,0.08)"
+              ? "rgba(245,166,35,0.25)"
+              : "rgba(245,166,35,0.18)"
         }
         strokeWidth={isSelected ? 1.5 : 1}
-        className={`transition-all duration-200${!filled ? " animate-hex-pulse" : ""}`}
-        style={!filled ? { animationDelay: `${index * 0.4}s` } : undefined}
+        className="transition-all duration-200"
       />
       {/* Fill — honey gradient if token, empty if not */}
       <path
@@ -106,31 +116,10 @@ function HexCell({
             ? isMain
               ? "url(#hex-fill-main)"
               : "url(#hex-fill)"
-            : "url(#hex-fill-empty)"
+            : "url(#hex-fill-empty-visible)"
         }
-        className={`transition-all duration-200${!filled ? " animate-hex-pulse" : ""}`}
-        style={!filled ? { animationDelay: `${index * 0.4}s` } : undefined}
+        className="transition-all duration-200"
       />
-      {/* Shimmer sweep on empty cells */}
-      {!filled && (
-        <>
-          <defs>
-            <clipPath id={`hex-shimmer-clip-${index}`}>
-              <path d={hexPath(R - 1)} />
-            </clipPath>
-          </defs>
-          <rect
-            x={-R}
-            y={-R}
-            width={R * 2}
-            height={R * 2}
-            fill="url(#hex-shimmer-grad)"
-            clipPath={`url(#hex-shimmer-clip-${index})`}
-            className="animate-hex-sweep"
-            style={{ animationDelay: `${index * 0.3}s` }}
-          />
-        </>
-      )}
       {filled && (
         <>
           {token.imageUrl ? (
@@ -370,11 +359,9 @@ export default function DeployedTokens() {
                 <stop offset="0%" stopColor="rgba(245,166,35,0.02)" />
                 <stop offset="100%" stopColor="rgba(245,166,35,0.04)" />
               </linearGradient>
-              <linearGradient id="hex-shimmer-grad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="transparent" />
-                <stop offset="40%" stopColor="rgba(245,166,35,0.06)" />
-                <stop offset="60%" stopColor="rgba(245,166,35,0.06)" />
-                <stop offset="100%" stopColor="transparent" />
+              <linearGradient id="hex-fill-empty-visible" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stopColor="rgba(245,166,35,0.04)" />
+                <stop offset="100%" stopColor="rgba(245,166,35,0.08)" />
               </linearGradient>
             </defs>
             {HIVE_POSITIONS.map(([q, r], i) => {
