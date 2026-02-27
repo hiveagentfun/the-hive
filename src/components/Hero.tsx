@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import CopyButton from "./CopyButton";
 import { WALLET_ADDRESS, MAIN_TOKEN_CA, URLS } from "@/lib/constants";
 import { usePolling } from "@/hooks/usePolling";
+import { useCountUp } from "@/hooks/useCountUp";
 
 interface Stats {
   walletBalance: number | null;
@@ -38,6 +39,31 @@ export default function Hero() {
     []
   );
   const { data, loading } = usePolling<Stats>(fetcher, 10000);
+
+  const rawBalance = data?.walletBalance ?? 0;
+  const animatedBalance = useCountUp(rawBalance, 1000);
+
+  // Typewriter effect
+  const fullText = "A Solana agent that watches the current meta of the Solana trenches, launches bee-themed beta tokens, and funnels all fees back into The Hive.";
+  const [typedLen, setTypedLen] = useState(0);
+  const typeStarted = useRef(false);
+
+  useEffect(() => {
+    if (typeStarted.current) return;
+    typeStarted.current = true;
+    const delay = setTimeout(() => {
+      const id = setInterval(() => {
+        setTypedLen((prev) => {
+          if (prev >= fullText.length) {
+            clearInterval(id);
+            return fullText.length;
+          }
+          return prev + 1;
+        });
+      }, 25);
+    }, 800);
+    return () => clearTimeout(delay);
+  }, [fullText.length]);
 
   return (
     <section id="home" className="relative pt-32 pb-24 px-6 text-center overflow-hidden">
@@ -88,7 +114,10 @@ export default function Hero() {
         </div>
 
         <p className="opacity-0 animate-fade-in-up-delay-2 text-ink-muted text-base max-w-md mx-auto mb-10 leading-relaxed">
-          A Solana agent that watches the current meta of the Solana trenches, launches bee-themed beta tokens, and funnels all fees back into The Hive.
+          {fullText.slice(0, typedLen)}
+          {typedLen < fullText.length && (
+            <span className="inline-block w-[2px] h-[1em] bg-honey/60 ml-0.5 align-middle animate-pulse" />
+          )}
         </p>
 
         {/* Live Balance */}
@@ -97,11 +126,9 @@ export default function Hero() {
             <div className="h-10 w-36 mx-auto skeleton" />
           ) : (
             <p className="text-4xl sm:text-5xl font-heading font-extrabold text-ink tracking-tight transition-all duration-500">
-              {data?.walletBalance != null
-                ? data.walletBalance < 0.01
-                  ? data.walletBalance.toFixed(4)
-                  : data.walletBalance.toFixed(2)
-                : "0.00"}
+              {animatedBalance < 0.01
+                ? animatedBalance.toFixed(4)
+                : animatedBalance.toFixed(2)}
               <span className="text-lg text-honey ml-2">SOL</span>
             </p>
           )}

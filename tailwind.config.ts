@@ -89,6 +89,16 @@ const config: Config = {
           "33%": { transform: "translate(30px, -50px)" },
           "66%": { transform: "translate(-60px, 20px)" },
         },
+        beeFlutter: {
+          "0%, 100%": { transform: "rotate(0deg) scale(1)" },
+          "25%": { transform: "rotate(-8deg) scale(1.1)" },
+          "75%": { transform: "rotate(8deg) scale(1.1)" },
+        },
+        hexSweep: {
+          "0%": { opacity: "0", transform: "translateX(-100%)" },
+          "50%": { opacity: "1" },
+          "100%": { opacity: "0", transform: "translateX(100%)" },
+        },
       },
       animation: {
         "fade-in-up": "fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards",
@@ -105,6 +115,8 @@ const config: Config = {
         "orb-drift-1": "orbDrift1 25s ease-in-out infinite",
         "orb-drift-2": "orbDrift2 30s ease-in-out infinite",
         "orb-drift-3": "orbDrift3 20s ease-in-out infinite",
+        "bee-flutter": "beeFlutter 0.4s ease-in-out",
+        "hex-sweep": "hexSweep 2s ease-in-out infinite",
       },
     },
   },

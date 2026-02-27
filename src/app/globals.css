@@ -30,6 +30,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Scroll-snap on desktop */
+@media (min-width: 1280px) {
+  main {
+    scroll-snap-type: y proximity;
+  }
+  main > section {
+    scroll-snap-align: start;
+  }
+}
+
 /* Animated gradient text */
 .text-gradient-animated {
   background: linear-gradient(135deg, #f5a623 0%, #e8890a 30%, #ffd98e 60%, #f5a623 100%);

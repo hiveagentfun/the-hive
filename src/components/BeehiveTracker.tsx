@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useMarketCap } from "@/hooks/useMarketCap";
+import { useCountUp } from "@/hooks/useCountUp";
 import type { Milestone } from "@/hooks/useMarketCap";
 
 /* ── Hex geometry ─────────────────────────────────────────── */
@@ -299,6 +300,7 @@ function formatMarketCap(value: number): string {
 export default function BeehiveTracker() {
   const { ref, visible } = useScrollReveal(0.1);
   const { marketCap, milestones } = useMarketCap();
+  const animatedMarketCap = useCountUp(marketCap, 1200);
   const [celebrating, setCelebrating] = useState<number | null>(null);
   const prevReached = useRef<boolean[]>(milestones.map((m) => m.reached));
   const hasReceivedData = useRef(false);
@@ -336,7 +338,7 @@ export default function BeehiveTracker() {
         </p>
         <div className="relative inline-block">
           <p className="text-4xl sm:text-5xl font-heading font-extrabold text-ink tracking-tight">
-            {formatMarketCap(marketCap)}
+            {formatMarketCap(animatedMarketCap)}
           </p>
         </div>
       </div>

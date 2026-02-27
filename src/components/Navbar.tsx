@@ -60,7 +60,7 @@ export default function Navbar() {
       <div className="max-w-5xl mx-auto px-6">
         <div className="flex items-center justify-between h-14">
           <a href="#" className="flex items-center gap-2 group">
-            <Image src="/bee-logo.svg" alt="The Hive" width={28} height={28} />
+            <Image src="/bee-logo.svg" alt="The Hive" width={28} height={28} className="group-hover:animate-bee-flutter transition-transform" />
             <span className="font-heading font-bold text-sm text-ink group-hover:text-honey transition-colors">THE HIVE</span>
           </a>
 
