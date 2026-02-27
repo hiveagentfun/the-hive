@@ -298,7 +298,7 @@ function formatMarketCap(value: number): string {
 
 export default function BeehiveTracker() {
   const { ref, visible } = useScrollReveal(0.1);
-  const { marketCap, milestones } = useMarketCap(0);
+  const { marketCap, milestones } = useMarketCap();
   const [celebrating, setCelebrating] = useState<number | null>(null);
   const prevReached = useRef<boolean[]>(milestones.map((m) => m.reached));
 

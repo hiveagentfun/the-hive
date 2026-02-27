@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useCallback, useMemo } from "react";
+import { usePolling } from "./usePolling";
 
 export interface Milestone {
   label: string;
@@ -19,8 +20,18 @@ const MILESTONES = [
   { label: "$1M", target: 1_000_000 },
 ];
 
-export function useMarketCap(initialValue = 42_000) {
-  const [marketCap, setMarketCap] = useState(initialValue);
+interface StatsResponse {
+  marketCap: number | null;
+}
+
+export function useMarketCap() {
+  const fetcher = useCallback(
+    () => fetch("/api/stats").then((r) => r.json()),
+    []
+  );
+  const { data } = usePolling<StatsResponse>(fetcher, 30_000);
+
+  const marketCap = data?.marketCap ?? 0;
 
   const milestones: Milestone[] = useMemo(
     () =>
@@ -43,5 +54,5 @@ export function useMarketCap(initialValue = 42_000) {
     [marketCap]
   );
 
-  return { marketCap, setMarketCap, milestones };
+  return { marketCap, milestones };
 }
