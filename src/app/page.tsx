@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import SideNav from "@/components/SideNav";
 import ScrollProgress from "@/components/ScrollProgress";
 import Hero from "@/components/Hero";
 import Flywheel from "@/components/Flywheel";
@@ -13,6 +14,7 @@ export default function Home() {
     <>
       <ScrollProgress />
       <Navbar />
+      <SideNav />
       <main>
         <Hero />
         <Flywheel />

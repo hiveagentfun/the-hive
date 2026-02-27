@@ -32,7 +32,7 @@ export default function Hero() {
   const { data, loading } = usePolling<Stats>(fetcher, 10000);
 
   return (
-    <section className="relative pt-32 pb-24 px-6 text-center overflow-hidden">
+    <section id="home" className="relative pt-32 pb-24 px-6 text-center overflow-hidden">
       {/* Warm radial glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-honey/[0.08] blur-[120px] pointer-events-none" />
 

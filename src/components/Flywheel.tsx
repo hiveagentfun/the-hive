@@ -13,7 +13,7 @@ export default function Flywheel() {
   const { ref, visible } = useScrollReveal(0.15);
 
   return (
-    <section ref={ref} className="relative py-20 px-6 overflow-hidden">
+    <section ref={ref} id="how-it-works" className="relative py-20 px-6 overflow-hidden">
       {/* Section dividers */}
       <div className="absolute top-0 left-0 right-0 section-divider" />
 

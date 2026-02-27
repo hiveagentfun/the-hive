@@ -324,7 +324,7 @@ export default function BeehiveTracker() {
   }, []);
 
   return (
-    <section ref={ref} className="relative max-w-6xl mx-auto px-6 py-20">
+    <section ref={ref} id="market-cap" className="relative max-w-6xl mx-auto px-6 py-20">
       {/* Header */}
       <div
         className={`text-center mb-12 transition-all duration-700 ${
