@@ -88,7 +88,7 @@ function HexCell({
         <path
           d={hexPath(R + 2)}
           fill="none"
-          stroke="rgba(245,166,35,0.12)"
+          stroke="rgba(255,255,255,0.08)"
           strokeWidth={2}
           className="animate-hex-pulse"
           style={{ animationDelay: `${index * 0.4}s`, filter: "blur(2px)" }}
@@ -103,7 +103,7 @@ function HexCell({
             ? "rgba(245,166,35,0.7)"
             : filled
               ? "rgba(245,166,35,0.25)"
-              : "rgba(245,166,35,0.18)"
+              : "rgba(255,255,255,0.12)"
         }
         strokeWidth={isSelected ? 1.5 : 1}
         className="transition-all duration-200"
@@ -355,13 +355,9 @@ export default function DeployedTokens() {
                 <stop offset="0%" stopColor="rgba(245,166,35,0.15)" />
                 <stop offset="100%" stopColor="rgba(245,166,35,0.25)" />
               </linearGradient>
-              <linearGradient id="hex-fill-empty" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="rgba(245,166,35,0.02)" />
-                <stop offset="100%" stopColor="rgba(245,166,35,0.04)" />
-              </linearGradient>
               <linearGradient id="hex-fill-empty-visible" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="rgba(245,166,35,0.04)" />
-                <stop offset="100%" stopColor="rgba(245,166,35,0.08)" />
+                <stop offset="0%" stopColor="rgba(255,255,255,0.03)" />
+                <stop offset="100%" stopColor="rgba(255,255,255,0.06)" />
               </linearGradient>
             </defs>
             {HIVE_POSITIONS.map(([q, r], i) => {
