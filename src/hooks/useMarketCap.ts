@@ -29,7 +29,7 @@ export function useMarketCap() {
     () => fetch("/api/stats").then((r) => r.json()),
     []
   );
-  const { data } = usePolling<StatsResponse>(fetcher, 30_000);
+  const { data } = usePolling<StatsResponse>(fetcher, 10_000);
 
   const marketCap = data?.marketCap ?? 0;
 
