@@ -14,9 +14,13 @@ function CaButton() {
   if (!MAIN_TOKEN_CA) return null;
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(MAIN_TOKEN_CA);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(MAIN_TOKEN_CA);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard API not available
+    }
   };
 
   const short = `${MAIN_TOKEN_CA.slice(0, 4)}...${MAIN_TOKEN_CA.slice(-4)}`;

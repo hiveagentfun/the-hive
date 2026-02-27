@@ -170,9 +170,13 @@ function TokenPopover({
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(token.mintAddress);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(token.mintAddress);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard API not available
+    }
   };
 
   return (
@@ -276,19 +280,21 @@ export default function DeployedTokens() {
 
   const selectedToken = selectedId ? tokens.find((t) => t.id === selectedId) : null;
   const tiltRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const svgRef = useRef<SVGSVGElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const el = tiltRef.current;
-    if (!el) return;
+    const svg = svgRef.current;
+    if (!el || !svg) return;
     const rect = el.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
     const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    setTilt({ x: y * -8, y: x * 8 });
+    svg.style.transform = `rotateX(${y * -8}deg) rotateY(${x * 8}deg)`;
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    setTilt({ x: 0, y: 0 });
+    const svg = svgRef.current;
+    if (svg) svg.style.transform = "rotateX(0deg) rotateY(0deg)";
   }, []);
 
   return (
@@ -323,11 +329,11 @@ export default function DeployedTokens() {
             }}
           >
           <svg
+            ref={svgRef}
             viewBox={viewBox}
             className="w-full"
             xmlns="http://www.w3.org/2000/svg"
             style={{
-              transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
               transition: "transform 0.15s ease-out",
             }}
           >

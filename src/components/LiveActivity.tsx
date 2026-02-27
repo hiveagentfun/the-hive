@@ -11,9 +11,13 @@ function ContractAddress() {
 
   const handleCopy = async () => {
     if (!MAIN_TOKEN_CA) return;
-    await navigator.clipboard.writeText(MAIN_TOKEN_CA);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(MAIN_TOKEN_CA);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard API not available
+    }
   };
 
   return (
