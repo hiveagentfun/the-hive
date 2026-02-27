@@ -4,11 +4,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { MAIN_TOKEN_CA, URLS } from "@/lib/constants";
 
-const NAV_LINKS = [
-  { label: "Tokens", href: "#tokens" },
-  { label: "Activity", href: "#activity" },
-];
-
 function CaButton() {
   const [copied, setCopied] = useState(false);
   if (!MAIN_TOKEN_CA) return null;
@@ -52,8 +47,6 @@ function CaButton() {
 }
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-void/80 border-b border-honey/10">
       <div className="max-w-5xl mx-auto px-6">
@@ -63,53 +56,10 @@ export default function Navbar() {
             <span className="font-heading font-bold text-sm text-ink group-hover:text-honey transition-colors">THE HIVE</span>
           </a>
 
-          <div className="hidden md:flex items-center gap-6">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-xs text-ink-muted hover:text-honey transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
-            <CaButton />
-          </div>
-
-          <div className="flex md:hidden items-center gap-3">
-            <CaButton />
-            <button
-              className="text-ink-muted hover:text-ink"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {menuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
+          <CaButton />
         </div>
       </div>
 
-      {menuOpen && (
-        <div className="md:hidden border-t border-honey/10 bg-void/95 backdrop-blur-xl">
-          <div className="px-6 py-3 space-y-2">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="block text-sm text-ink-muted hover:text-honey"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
     </nav>
   );
 }
