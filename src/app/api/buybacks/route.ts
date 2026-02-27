@@ -5,7 +5,7 @@ export async function GET(req: NextRequest) {
   try {
     await ensureDb();
     const { searchParams } = new URL(req.url);
-    const limit = Math.min(parseInt(searchParams.get("limit") || "50"), 100);
+    const limit = Math.min(parseInt(searchParams.get("limit") || "50") || 50, 100);
 
     const [buybacks, totalSol] = await Promise.all([
       prisma.buyback.findMany({

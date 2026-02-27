@@ -301,12 +301,13 @@ export default function BeehiveTracker() {
   const { marketCap, milestones } = useMarketCap();
   const [celebrating, setCelebrating] = useState<number | null>(null);
   const prevReached = useRef<boolean[]>(milestones.map((m) => m.reached));
-  const initialLoad = useRef(true);
+  const hasReceivedData = useRef(false);
 
-  // Detect milestone transitions (skip first load to avoid false celebrations)
+  // Detect milestone transitions (skip until we've had real data to avoid false celebrations)
   useEffect(() => {
-    if (initialLoad.current) {
-      initialLoad.current = false;
+    if (!hasReceivedData.current) {
+      // First time we get real market cap data, just record state without celebrating
+      hasReceivedData.current = marketCap > 0 || milestones.some((m) => m.reached);
       prevReached.current = milestones.map((m) => m.reached);
       return;
     }
@@ -316,7 +317,7 @@ export default function BeehiveTracker() {
       }
     });
     prevReached.current = milestones.map((m) => m.reached);
-  }, [milestones]);
+  }, [milestones, marketCap]);
 
   const handleCelebrationEnd = useCallback(() => {
     setCelebrating(null);

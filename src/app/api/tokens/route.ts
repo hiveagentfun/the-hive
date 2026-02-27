@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
     await ensureDb();
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status");
-    const limit = Math.min(parseInt(searchParams.get("limit") || "50"), 100);
+    const limit = Math.min(parseInt(searchParams.get("limit") || "50") || 50, 100);
 
     const where = status ? { status } : {};
 
