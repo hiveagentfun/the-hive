@@ -45,7 +45,10 @@ function ContractAddress() {
           </a>
         </div>
       ) : (
-        <p className="text-sm font-mono text-ink-faint">Launching soon</p>
+        <div className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-honey animate-live-pulse" />
+          <p className="text-sm font-mono text-ink-muted">Launching soon</p>
+        </div>
       )}
     </div>
   );

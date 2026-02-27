@@ -66,6 +66,10 @@ const config: Config = {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.4" },
         },
+        hexPulse: {
+          "0%, 100%": { opacity: "0.08" },
+          "50%": { opacity: "0.18" },
+        },
         honeyGlow: {
           "0%, 100%": { filter: "drop-shadow(0 0 0px #f5a623)" },
           "50%": { filter: "drop-shadow(0 0 8px #f5a623)" },
@@ -82,6 +86,7 @@ const config: Config = {
         "bee-float": "beeFloat 3s ease-in-out infinite",
         "live-pulse": "livePulse 2s ease-in-out infinite",
         "honey-glow": "honeyGlow 2s ease-in-out infinite",
+        "hex-pulse": "hexPulse 3s ease-in-out infinite",
       },
     },
   },

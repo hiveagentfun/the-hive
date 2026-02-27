@@ -95,7 +95,8 @@ function HexCell({
               : "rgba(245,166,35,0.08)"
         }
         strokeWidth={isSelected ? 1.5 : 1}
-        className="transition-all duration-200"
+        className={`transition-all duration-200${!filled ? " animate-hex-pulse" : ""}`}
+        style={!filled ? { animationDelay: `${index * 0.4}s` } : undefined}
       />
       {/* Fill — honey gradient if token, empty if not */}
       <path
@@ -107,7 +108,8 @@ function HexCell({
               : "url(#hex-fill)"
             : "url(#hex-fill-empty)"
         }
-        className="transition-all duration-200"
+        className={`transition-all duration-200${!filled ? " animate-hex-pulse" : ""}`}
+        style={!filled ? { animationDelay: `${index * 0.4}s` } : undefined}
       />
       {filled && (
         <>
