@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePolling } from "@/hooks/usePolling";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -275,6 +275,21 @@ export default function DeployedTokens() {
   }, []);
 
   const selectedToken = selectedId ? tokens.find((t) => t.id === selectedId) : null;
+  const tiltRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const el = tiltRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    setTilt({ x: y * -8, y: x * 8 });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setTilt({ x: 0, y: 0 });
+  }, []);
 
   return (
     <section ref={ref} id="tokens" className="relative py-20 px-6 overflow-hidden">
@@ -297,11 +312,24 @@ export default function DeployedTokens() {
           className={`transition-all duration-700
             ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
         >
-          {/* Beehive SVG — always 6 cells */}
+          {/* Beehive SVG — always 6 cells, 3D tilt on hover */}
+          <div
+            ref={tiltRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className="mx-auto max-w-xs w-full"
+            style={{
+              perspective: "600px",
+            }}
+          >
           <svg
             viewBox={viewBox}
-            className="mx-auto max-w-xs w-full"
+            className="w-full"
             xmlns="http://www.w3.org/2000/svg"
+            style={{
+              transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+              transition: "transform 0.15s ease-out",
+            }}
           >
             <defs>
               <linearGradient id="hex-fill" x1="0" y1="1" x2="0" y2="0">
@@ -338,6 +366,7 @@ export default function DeployedTokens() {
               );
             })}
           </svg>
+          </div>
 
           {/* Token detail popover */}
           <AnimatePresence>

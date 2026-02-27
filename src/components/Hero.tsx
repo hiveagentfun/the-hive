@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CopyButton from "./CopyButton";
 import { WALLET_ADDRESS, MAIN_TOKEN_CA, URLS } from "@/lib/constants";
 import { usePolling } from "@/hooks/usePolling";
@@ -25,6 +25,14 @@ function BeeIcon({ className = "" }: { className?: string }) {
 }
 
 export default function Hero() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const fetcher = useCallback(
     () => fetch("/api/stats").then((r) => r.json()),
     []
@@ -33,11 +41,17 @@ export default function Hero() {
 
   return (
     <section id="home" className="relative pt-32 pb-24 px-6 text-center overflow-hidden">
-      {/* Warm radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-honey/[0.08] blur-[120px] pointer-events-none" />
+      {/* Warm radial glow — slow parallax */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-honey/[0.08] blur-[120px] pointer-events-none"
+        style={{ transform: `translate(-50%, calc(-50% + ${scrollY * 0.15}px))` }}
+      />
 
-      {/* Background floating bees */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Background floating bees — faster parallax */}
+      <div
+        className="absolute inset-0 pointer-events-none overflow-hidden"
+        style={{ transform: `translateY(${scrollY * 0.3}px)` }}
+      >
         <div className="absolute top-[15%] left-[8%] animate-bee-float opacity-[0.14]" style={{ animationDelay: "0s" }}>
           <BeeIcon className="w-10 h-10" />
         </div>
@@ -52,8 +66,11 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Honeycomb bg */}
-      <div className="absolute inset-0 honeycomb-bg opacity-40 pointer-events-none" />
+      {/* Honeycomb bg — subtle parallax */}
+      <div
+        className="absolute inset-0 honeycomb-bg opacity-40 pointer-events-none"
+        style={{ transform: `translateY(${scrollY * 0.08}px)` }}
+      />
 
       <div className="relative max-w-2xl mx-auto">
         <p className="opacity-0 animate-fade-in-up text-xs tracking-[0.2em] uppercase text-honey-dark mb-4">

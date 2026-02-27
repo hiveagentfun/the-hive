@@ -19,7 +19,7 @@ export default function EcosystemActivity() {
   const transactions = data?.transactions || [];
 
   return (
-    <div className="bg-surface border border-border rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.2)] overflow-hidden">
+    <div className="bg-surface/80 backdrop-blur-xl border border-border/60 rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.2)] overflow-hidden">
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
         <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-live-pulse" />

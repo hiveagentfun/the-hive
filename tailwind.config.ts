@@ -74,6 +74,21 @@ const config: Config = {
           "0%, 100%": { filter: "drop-shadow(0 0 0px #f5a623)" },
           "50%": { filter: "drop-shadow(0 0 8px #f5a623)" },
         },
+        orbDrift1: {
+          "0%, 100%": { transform: "translate(0, 0)" },
+          "33%": { transform: "translate(60px, 40px)" },
+          "66%": { transform: "translate(-30px, 70px)" },
+        },
+        orbDrift2: {
+          "0%, 100%": { transform: "translate(0, 0)" },
+          "33%": { transform: "translate(-50px, -30px)" },
+          "66%": { transform: "translate(40px, -60px)" },
+        },
+        orbDrift3: {
+          "0%, 100%": { transform: "translate(0, 0)" },
+          "33%": { transform: "translate(30px, -50px)" },
+          "66%": { transform: "translate(-60px, 20px)" },
+        },
       },
       animation: {
         "fade-in-up": "fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards",
@@ -87,6 +102,9 @@ const config: Config = {
         "live-pulse": "livePulse 2s ease-in-out infinite",
         "honey-glow": "honeyGlow 2s ease-in-out infinite",
         "hex-pulse": "hexPulse 3s ease-in-out infinite",
+        "orb-drift-1": "orbDrift1 25s ease-in-out infinite",
+        "orb-drift-2": "orbDrift2 30s ease-in-out infinite",
+        "orb-drift-3": "orbDrift3 20s ease-in-out infinite",
       },
     },
   },
