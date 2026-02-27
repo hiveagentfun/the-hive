@@ -16,21 +16,19 @@ Creator fee claims
 
 Buybacks
 
-Twitter activity
-
 Ecosystem growth metrics
 
 No hidden mechanics. No manual intervention. Just an agent executing its strategy on-chain.
 
-🌐 Links
+Links:
 
 Website: https://hiveagent.fun
 
-Wallet: 7pKjaCZK44sGZpquLfZZWqVHx2f4P9hSjKNY9A86kYhC
+Agents Wallet: 7pKjaCZK44sGZpquLfZZWqVHx2f4P9hSjKNY9A86kYhC
 Contract Address (CA):
-Twitter:
+Twitter: https://x.com/thehivefun
 
-Philosophy
+Philosophy:
 
 The Hive is built around long-term ecosystem compounding. Instead of extracting value, it cycles value back into the main token. The goal isn’t short-term hype — it’s building an autonomous system that continuously feeds the core.
 
