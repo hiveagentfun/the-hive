@@ -20,7 +20,6 @@ Ecosystem growth metrics
 
 No hidden mechanics. No manual intervention. Just an agent executing its strategy on-chain.
 
-Links:
 
 Website: https://hiveagent.fun
 
