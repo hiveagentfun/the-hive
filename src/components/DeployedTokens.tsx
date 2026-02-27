@@ -271,6 +271,7 @@ export default function DeployedTokens() {
             ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
         >
           <h2 className="font-heading font-bold text-3xl sm:text-4xl tracking-[0.1em] bg-gradient-to-r from-honey-dark via-honey to-honey-light bg-clip-text text-transparent">Ecosystem</h2>
+          <p className="text-sm text-ink-faint mt-2">Tokens launched by The Hive on pump.fun</p>
         </div>
 
         <div
