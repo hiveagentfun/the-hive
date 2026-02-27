@@ -23,6 +23,11 @@ export default function Footer() {
           <span className="text-honey/40">hiveagent.fun</span>
         </div>
       </div>
+      <div className="border-t border-honey/5 px-6 py-4">
+        <p className="text-[11px] text-ink-faint/60 text-center max-w-2xl mx-auto leading-relaxed">
+          The Hive is an experimental project. Tokens created by this agent have no intrinsic value and are not financial instruments. Interact at your own risk.
+        </p>
+      </div>
     </footer>
   );
 }
