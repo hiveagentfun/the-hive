@@ -301,9 +301,15 @@ export default function BeehiveTracker() {
   const { marketCap, milestones } = useMarketCap();
   const [celebrating, setCelebrating] = useState<number | null>(null);
   const prevReached = useRef<boolean[]>(milestones.map((m) => m.reached));
+  const initialLoad = useRef(true);
 
-  // Detect milestone transitions
+  // Detect milestone transitions (skip first load to avoid false celebrations)
   useEffect(() => {
+    if (initialLoad.current) {
+      initialLoad.current = false;
+      prevReached.current = milestones.map((m) => m.reached);
+      return;
+    }
     milestones.forEach((m, i) => {
       if (m.reached && !prevReached.current[i]) {
         setCelebrating(i);

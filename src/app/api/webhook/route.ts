@@ -42,6 +42,15 @@ export async function POST(req: NextRequest) {
 
       const classified = classifyTransaction(tx);
 
+      // Enrich token symbol/name if missing and mint is known
+      if (classified.tokenMint && !classified.tokenSymbol) {
+        const meta = await getTokenMetadata(classified.tokenMint).catch(() => null);
+        if (meta) {
+          classified.tokenSymbol = meta.symbol;
+          classified.tokenName = meta.name;
+        }
+      }
+
       try {
         await prisma.transaction.create({
           data: {
